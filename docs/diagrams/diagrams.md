@@ -159,6 +159,108 @@ flowchart TB
 
 ---
 
+
+## 5. Activity Diagram
+
+flowchart TD
+    A([Start]) --> B[Open Campus Lost & Found Portal]
+    B --> C[View Available Items]
+    C --> D{Choose an Action}
+
+    D -->|Search| E[Enter Search or Filter Criteria]
+    E --> F[View Matching Items]
+    F --> D
+
+    D -->|Register or Login| G[Submit Account Details]
+    G --> H{Authentication Successful?}
+    H -->|No| I[Display Error Message]
+    I --> G
+    H -->|Yes| J[Access Authenticated Features]
+
+    D -->|Report Lost or Found Item| J
+    J --> K[Enter Item Details]
+    K --> L{Details Valid?}
+    L -->|No| M[Correct Item Details]
+    M --> K
+    L -->|Yes| N[Submit Item Report]
+    N --> O[Save Item in Database]
+    O --> P[Display Confirmation]
+
+    D -->|Resolve Own Item| Q[Select Own Item]
+    Q --> R[Request Resolution]
+    R --> S{Is User the Item Creator?}
+    S -->|No| T[Reject Request]
+    S -->|Yes| U[Mark Item as Resolved]
+    U --> V[Display Updated Status]
+
+    P --> W([End])
+    T --> W
+    V --> W
+
+
+## 6. Sequence Diagram — Reporting an Item
+
+sequenceDiagram
+    actor User
+    participant FE as React Frontend
+    participant API as Flask API
+    participant ORM as SQLAlchemy
+    participant DB as SQLite Database
+
+    User->>FE: Enter item details
+    FE->>FE: Validate form inputs
+    FE->>API: POST /api/items with JWT
+    API->>API: Validate authentication token
+
+    alt Token is invalid or missing
+        API-->>FE: 401 Unauthorized
+        FE-->>User: Display authentication error
+    else Token is valid
+        API->>API: Validate item data
+
+        alt Item data is invalid
+            API-->>FE: Return validation error
+            FE-->>User: Display error message
+        else Item data is valid
+            API->>ORM: Create Item record
+            ORM->>DB: Insert item and creator ID
+            DB-->>ORM: Confirm saved record
+            ORM-->>API: Return created item
+            API-->>FE: Return success response
+            FE-->>User: Display confirmation
+        end
+    end
+
+
+## 7. Class Diagram
+
+classDiagram
+    class User {
+        +int id
+        +string name
+        +string email
+        +string password_hash
+        +datetime created_at
+    }
+
+    class Item {
+        +int id
+        +int creator_id
+        +string item_name
+        +string report_type
+        +string category
+        +string description
+        +string location
+        +date incident_date
+        +string status
+        +datetime created_at
+    }
+
+    User "1" --> "0..*" Item : creates
+
+    
+
 ## Conclusion
 
 These four diagrams document the main interactions, data flow, database relationships, and software architecture of the Campus Lost & Found Portal. They should be consistent with the implemented application and its actual database schema.
+
