@@ -162,6 +162,7 @@ flowchart TB
 
 ## 5. Activity Diagram
 
+```mermaid
 flowchart TD
     A([Start]) --> B[Open Campus Lost & Found Portal]
     B --> C[View Available Items]
@@ -196,10 +197,11 @@ flowchart TD
     P --> W([End])
     T --> W
     V --> W
-
+```
 
 ## 6. Sequence Diagram — Reporting an Item
 
+```mermaid
 sequenceDiagram
     actor User
     participant FE as React Frontend
@@ -230,10 +232,11 @@ sequenceDiagram
             FE-->>User: Display confirmation
         end
     end
-
+```
 
 ## 7. Class Diagram
 
+```mermaid
 classDiagram
     class User {
         +int id
@@ -257,10 +260,9 @@ classDiagram
     }
 
     User "1" --> "0..*" Item : creates
-
+```
     
 
 ## Conclusion
 
 These four diagrams document the main interactions, data flow, database relationships, and software architecture of the Campus Lost & Found Portal. They should be consistent with the implemented application and its actual database schema.
-
