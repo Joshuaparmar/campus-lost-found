@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.env
+
+# Flask instance data and local databases
+backend/instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated test reports (keep report templates and documentation)
+backend/reports/
+
+# Node and frontend build output
+frontend/node_modules/
+frontend/dist/
+
+# Environment-specific files
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
